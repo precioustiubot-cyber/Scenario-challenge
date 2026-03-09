@@ -5,35 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scenario Challenge - Let's Go 4</title>
     <style>
-        :root { --red: #d32f2f; --white: #ffffff; --gray: #f4f4f4; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background-color: var(--white); color: #333; margin: 0; padding-bottom: 50px; }
-        header { background-color: var(--red); color: var(--white); padding: 20px; margin-bottom: 30px; }
-        .scenario-card { max-width: 600px; margin: 20px auto; padding: 30px; border: 3px solid var(--red); border-radius: 20px; background: white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); display: none; }
-        .active { display: block; animation: fadeIn 0.5s; }
-        .btn-option { display: block; width: 100%; background: var(--white); border: 2px solid var(--red); color: var(--red); padding: 15px; margin: 10px 0; font-size: 18px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-option:hover { background: var(--red); color: var(--white); }
-        #feedback-box { font-size: 24px; font-weight: bold; margin-top: 20px; min-height: 40px; }
-        .success { color: #2e7d32; }
+        :root { --red: #d32f2f; --white: #ffffff; }
+        body { font-family: sans-serif; text-align: center; background: var(--white); color: #333; margin: 0; }
+        header { background: var(--red); color: white; padding: 20px; border-bottom: 5px solid #b71c1c; }
+        .card { max-width: 500px; margin: 40px auto; padding: 30px; border: 3px solid var(--red); border-radius: 20px; display: none; }
+        .active { display: block; }
+        .btn { display: block; width: 100%; background: white; border: 2px solid var(--red); color: var(--red); padding: 15px; margin: 10px 0; font-size: 18px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .btn:hover { background: var(--red); color: white; }
+        #feedback { font-size: 24px; font-weight: bold; margin-top: 20px; height: 30px; }
+        .success { color: green; }
         .error { color: var(--red); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Scenario Challenge</h1>
-    <p>Test Your Knowledge!</p>
-</header>
+<header><h1>Vocabulary Challenge</h1></header>
 
-<div class="container">
-    <div id="q1" class="scenario-card active">
-        <h2>Scenario 1</h2>
-        <p style="font-size: 20px;">"I am done grocery shopping. Where should I pay?"</p>
-        <button class="btn-option" onclick="handleAnswer('q1', false)">Produce</button>
-        <button class="btn-option" onclick="handleAnswer('q1', false)">Bakery</button>
-        <button class="btn-option" onclick="handleAnswer('q1', true, 'q2')">Checkout Counter</button>
-    </div>
+<div id="q1" class="card active">
+    <h2>Scenario 1</h2>
+    <p>I am done grocery shopping. Where should I pay?</p>
+    <button class="btn" onclick="check(false)">Produce</button>
+    <button class="btn" onclick="check(false)">Bakery</button>
+    <button class="btn" onclick="check(true, 'q2')">Checkout Counter</button>
+</div>
 
-    <div id="q2" class="scenario-card">
-        <h2>Scenario 2</h2>
-        <p style="font-size: 20px;">"Fire
+<div id="q2" class="card">
+    <h2>Scenario 2</h2>
+    <p>Fire! Fire! I need something to put out the fire!</p>
+    <button class="btn" onclick="check(true, 'finish')">Fire Extinguisher</button>
+    <button class="btn" onclick="check(false)">Bucket of Ice</button>
+    <button class="btn" onclick="check(false)">Fanta</button>
+</div>
+
+<div id="finish" class="card">
+    <h2 class="success">Great Job!</h2>
+    <p>You finished the challenge!</p>
+    <button class="btn" onclick="location.reload()">Restart</button>
+</div>
+
+<div id="feedback"></div>
+
+<script>
+    function check(isCorrect, nextId) {
+        const feedback = document.getElementById('feedback');
+        if (isCorrect) {
+            feedback.innerHTML = "<span class='success'>Great job!</span>";
+            setTimeout(() => {
+                document.querySelector('.active').classList.remove('active');
+                document.getElementById(nextId).classList.add('active');
+                feedback.innerHTML = "";
+            }, 1000);
+        } else {
+            feedback.innerHTML = "<span class='error'>Try again.</span>";
+        }
+    }
+</script>
+
+</body>
+</html>
